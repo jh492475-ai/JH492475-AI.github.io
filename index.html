@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aventura Para Genios</title>
+  <link rel="icon" type="image/png" href="PILAR.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color: #fff;
+      background: none;
+      overflow-x: hidden;
+    }
+
+    /* HEADER FIJO */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background-image: url("fraijanes-fondo1.png");
+      background-size: cover;
+      background-position: center;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: 0;
+    }
+
+    header * { position: relative; z-index: 1; }
+
+    header img {
+      height: auto; width: 100%;
+      max-width: 110px;
+      border-radius: 50px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    header img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px #007BFF;
+    }
+
+    header h1 {
+      font-family: 'Times New Roman';
+      font-size: 50px;
+      color: rgb(173, 223, 173);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3), 3px 3px 5px rgba(204,204,0,1);
+    }
+
+    #menu-toggle { display: none; }
+    nav { display: flex; align-items: center; }
+    .menu-icon {
+      cursor: pointer;
+      width: 30px; height: 25px;
+      position: relative;
+      display: block;
+    }
+    .menu-icon span {
+      background: rgba(122, 99, 99, 0.47);
+      display: block;
+      height: 4px; margin: 5px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    ul.menu {
+      list-style: none;
+      padding: 40px; margin: 0;
+      display: none;
+      flex-direction: column;
+      background: #494f4d3d;
+      position: absolute; top: 60px; right: 20px;
+      border-radius: 5px;
+    }
+    ul.menu li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 20px;
+      display: block;
+      border-bottom: 1px solid #000;
+      transition: background 0.3s;
+    }
+    ul.menu li a:hover { background: #55555590; }
+    #menu-toggle:checked + .menu-icon + ul.menu { display: flex; }
+
+    @media(min-width: 769px) {
+      .menu-icon { display: none; }
+      ul.menu {
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: none;
+      }
+      ul.menu li a { border: none; padding: 10px 15px; }
+      ul.menu li a:hover { color: #ef0707; }
+    }
+
+    /* SECCIÓN HOME */
+    #home {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background-image: url("https://th.bing.com/th/id/R.ad20a9df0d6e2ca8e020c9488fe63ffc?rik=YwFrdSX3BamHJA&pid=ImgRaw&r=0");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: 120px; /* espacio por header */
+      z-index: 0;
+    }
+    #home::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: -1;
+    }
+    .texto-encima {
+      font-size: clamp(18px, 2.5vw, 26px);
+      background: rgba(0,0,0,0.6);
+      padding: 20px 30px;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: bold;
+      max-width: 800px;
+    }
+
+    /* SECCIONES GENERALES */
+    section, .dos-columnas, .eventos, .personajes, .testimonio {
+      background: rgba(134, 134, 105, 0.401);
+    }
+
+    /* DOS COLUMNAS */
+    .dos-columnas {
+      display: flex;
+      gap: 40px;
+      padding: 40px;
+      align-items: stretch;
+    }
+    .columna {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .info-box {
+      background: rgba(0,0,0,0.75);
+      border: 2px solid #c80a0a;
+      border-radius: 12px;
+      padding: 20px;
+      color: #f5f5f5;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+      flex: 1;
+    }
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .img-box img:hover { transform: scale(1.05); }
+
+    /* PERSONAJES */
+    .personajes {
+      padding: 50px 20px;
+      text-align: center;
+    }
+    .personajes h2 {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: #00ced1;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid #00ced1;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .card h3 { color: #1abc9c; margin-bottom: 8px; }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 2px solid #c80a0a;
+      position: relative;
+      z-index: 10;
+    }
+    footer a {
+      color: #ff4444;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+    footer a:hover { color: #ffd700; }
+
+    /* RESPONSIVE */
+    @media(max-width: 768px) {
+      .dos-columnas { flex-direction: column; }
+      .img-box img { height: auto; max-width: 100%; }
+    }
+
+    /*  Botón flotante  */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0855232c;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    .whatsapp-float:hover { transform: scale(1.3); }
+    .whatsapp-icon { margin-top: 14px; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="PILAR.png" alt="Kimetsu no Yaiba" />
+      <h1>Pilares Del Saber</h1>
+    </div>
+    <nav>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-icon">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index1.html">Áreas</a></li>
+        <li><a href="index2.html">Galería</a></li>
+        <li><a href="index3.html">Sobre Nosotros</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home">
+    <div class="texto-encima">Aprender no solo te da conocimiento, te da poder</div>
+  </section>
+
+  <section class="dos-columnas">
+    <div class="columna">
+      <div class="info-box">
+        <h2 style="text-align: center;">INTRODUCCIÓN</h2>
+        <p>Hoy en día, aprender no solo pasa en el salón ni con los métodos clásicos. Ahora hay formas más divertidas que mezclan entretenimiento, motivación y aprendizaje de verdad.
+           Los juegos educativos son una de esas formas, porque te ayudan a aprender cosas nuevas mientras jugás, a usar tus habilidades y competencias de manera activa y práctica. demás, hacen que tengas más ganas de participar, despiertan tu creatividad y hacen que entender cosas difíciles sea más fácil y divertido que con libros o clases aburridas.
+           En este proyecto, la idea es hacer un juego inspirado en Demon Slayer (Kimetsu no Yaiba). La serie es emocionante, con personajes que no se rinden, y enseña valores como perseverancia, valentía, empatía y trabajar en equipo para superar obstáculos difíciles. El juego toma eso y lo pone en un contexto educativo: los “demonios” son retos de la escuela, problemas de matemáticas, comprensión lectora o inglés. La idea es que aprendamos que todo se puede superar con esfuerzo, disciplina y colaboración.
+</p>
+      </div>
+      <div class="info-box">
+        <h2 style="text-align: center;">OBJETIVO</h2>
+        <p>El objetivo general de nuestro juego es diseñar una experiencia lúdica, educativa e inclusiva inspirada en el universo de Demon Slayer (Kimetsu no Yaiba), que permita a los jugadores desarrollar habilidades académicas, cognitivas, sociales y emocionales mediante dinámicas que combinan fantasía, acción y aprendizaje significativo. El juego busca estimular la creatividad, el pensamiento crítico y la resolución de problemas a través de misiones y retos que recrean la lucha contra demonios, funcionando como metáfora de los obstáculos en la vida cotidiana y en el aprendizaje escolar.
+           Además, se prioriza la inclusión de estudiantes con síndrome de Down, adaptando actividades para que puedan participar activamente y sentirse protagonistas de la aventura, reconociendo y valorando sus capacidades y fortalezas únicas
+          A través de este proyecto se pretende fortalecer conocimientos en Matemáticas, Comunicación y Lenguaje e Inglés, integrando cada materia de forma lúdica y contextualizada dentro del juego. </p>
+      </div>
+      <div class="info-box">
+        <h2 style="text-align: center;">OBJETIVO ESPECIFICO</h2>
+        <p>Un objetivo específico de nuestro juego es promover el aprendizaje interdisciplinario en Matemáticas, Comunicación y Lenguaje, e Inglés mediante actividades inspiradas en Demon Slayer, garantizando la participación activa e inclusiva de estudiantes con síndrome de Down. A través de misiones que simulan enfrentamientos contra demonios, entrenamientos y resolución de retos estratégicos, los jugadores desarrollarán competencias académicas de manera contextualizada y divertida, reforzando tanto el conocimiento como habilidades cognitivas y socioemocionales.
+
+          Este objetivo busca que los estudiantes fortalezcan:
+          Matemáticas: resolución de problemas, cálculos rápidos, análisis lógico y estrategias numéricas.
+          Comunicación y Lenguaje: comprensión lectora, redacción de historias o misiones, expresión oral, narración y vocabulario.
+          Inglés: aprendizaje de vocabulario, lectura de textos breves, comprensión de instrucciones y participación en diálogos sencillos.
+          Inclusión de estudiantes con síndrome de Down: adaptación de actividades para su ritmo de aprendizaje, uso de apoyos visuales y auditivos, tareas cooperativas y reconocimiento de sus fortalezas individuales.
+</p>
+      </div>
+    </div>
+
+    <div class="columna">
+      <div class="img-box">
+        <img src="https://akamai.sscdn.co/tb/letras-blog/wp-content/uploads/2024/03/4a8c815-demon-slayer-anime.png" alt="Imagen 1">
+      </div>
+      <div class="img-box">
+        <img src="https://cloudfront-eu-central-1.images.arcpublishing.com/prisaradiolos40/VEBE33ZBTJFZXCDP7YCJTVB76M.jpg" alt="Imagen 2">
+      </div>
+      <div class="img-box">
+        <img src="https://wallpapers-clan.com/wp-content/uploads/2025/01/tanjiro-demon-slayer-bright-sky-pc-wallpaper-preview.jpg" alt="Imagen 3">
+      </div>
+    </div>
+  </section>
+
+  <section class="personajes">
+    <h2>Sobre Nosotros</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="c:\Users\Jesús Lopez\OneDrive\Desktop\paginachus y dilan\dilan\paginawebproyecto\WhatsApp Image 2025-10-05 at 12.49.30 PM.jpeg" alt="Byron">
+        <h3>Hashira de la lógica</h3>
+        <p>Un guerrero astuto que utiliza la inteligencia para actualizar el mundo. 🤖</p>
+      </div>
+      <div class="card">
+        <img src="c:\Users\Jesús Lopez\OneDrive\Desktop\paginachus y dilan\dilan\paginawebproyecto\WhatsApp Image 2025-10-05 at 12.49.29 PM.jpeg" alt="Germán">
+        <h3>Hashira de la oscuridad</h3>
+        <p>Actúa desde las sombras para lograr precisión absoluta. ◼️</p>
+      </div>
+      <div class="card">
+        <img src="c:\Users\Jesús Lopez\OneDrive\Desktop\paginachus y dilan\dilan\paginawebproyecto\WhatsApp Image 2025-10-05 at 5.58.22 PM.jpeg" alt="Dilan">
+        <h3>Hashira de la estrategia</h3>
+        <p>Combina creatividad con conocimiento en cada batalla. ⚔️</p>
+      </div>
+      <div class="card">
+        <img src="c:\Users\Jesús Lopez\OneDrive\Desktop\paginachus y dilan\dilan\paginawebproyecto\WhatsApp Image 2025-10-05 at 5.51.16 PM.jpeg" alt="Jesús">
+        <h3>Hashira de la web</h3>
+        <p>Un guerrero ingenioso que estructura el mundo digital. 📓</p>
+      </div>
+    </div>
+  </section> 
+
+  <a href="https://wa.me/50239715201" class="whatsapp-float" target="_blank" title="Chatea con nosotros en WhatsApp">
+  <i class="whatsapp-icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="32" height="32">
+  </i>
+</a>
+
+</body>
+</html>

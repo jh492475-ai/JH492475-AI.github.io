@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pilares Del Saber</title>
+  <link rel="icon" type="image/png" href="PILAR.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* HEADER FIJO */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background-image: url("fraijanes-fondo1.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: 0;
+    }
+
+    header * { position: relative; z-index: 1; }
+
+    header img {
+      height: auto; width: 100%;
+      max-width: 110px;
+      border-radius: 50px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    header img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px #007BFF;
+    }
+
+    header h1 {
+     font-family: 'Times New Roman';
+      font-size: 50px;
+      color: rgb(173, 223, 173);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3), 3px 3px 5px rgba(204,204,0,1);
+    }
+
+    #menu-toggle { display: none; }
+    nav { display: flex; align-items: center; }
+
+    .menu-icon {
+      cursor: pointer;
+      width: 30px; height: 25px;
+      position: relative;
+      display: block;
+    }
+    .menu-icon span {
+      background: white;
+      display: block;
+      height: 4px; margin: 5px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    ul.menu {
+      list-style: none;
+      padding: 40px; margin: 0;
+      display: none;
+      flex-direction: column;
+      background: #494f4d3d;
+      position: absolute; top: 60px; right: 20px;
+      border-radius: 5px;
+    }
+
+    ul.menu li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 20px;
+      display: block;
+      border-bottom: 1px solid #000;
+      transition: background 0.3s;
+    }
+
+    ul.menu li a:hover { background: #55555590; }
+
+    #menu-toggle:checked + .menu-icon + ul.menu { display: flex; }
+
+    @media(min-width: 769px) {
+      .menu-icon { display: none; }
+      ul.menu {
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: none;
+      }
+      ul.menu li a { border: none; padding: 10px 15px; }
+      ul.menu li a:hover { color: #ef0707; }
+    }
+
+    /* HOME */
+    section#home {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      background: #099d62;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      margin-top: 160px; /* espacio por header fijo */
+      z-index: 1;
+    }
+
+    .foto-overlay {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .foto-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: all 0.3s ease;
+      filter: brightness(0.8);
+    }
+
+    .foto-overlay:hover img {
+      filter: brightness(1) contrast(120%) blur(2px);
+    }
+
+    .texto-encima {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.6);
+      padding: 10px 20px;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+
+    /* EVENTOS ENCIMA DEL FONDO */
+    .eventos {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 12px;
+      z-index: 2;
+    }
+
+    .eventos h2 {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: #ff4444;
+    }
+
+    .evento-carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 10px 0;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+    }
+
+    .evento-carousel::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .evento-carousel::-webkit-scrollbar-thumb {
+      background: #ff4444;
+      border-radius: 4px;
+    }
+
+    .evento-carousel::-webkit-scrollbar-track {
+      background: #222;
+      border-radius: 4px;
+    }
+
+    .evento-card {
+      flex: 0 0 300px;
+      scroll-snap-align: center;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid #c80a0a;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+    }
+
+    .evento-card h3 { 
+      color: #ff8888; margin-bottom: 10px; 
+    }
+
+    .evento-card:hover {
+      transform: scale(1.08) rotate(-1deg);
+      box-shadow: 0 12px 25px rgba(255,68,68,0.6);
+      background: rgba(255,68,68,0.1);
+      border-color: #ff8888;
+    }
+
+    footer {
+      background: #111;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 2px solid #c80a0a;
+    }
+
+    footer a {
+      color: #ff4444;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+    footer a:hover { color: #ffd700; }
+
+    /* Responsive */
+    @media(max-width: 768px) {
+      section#home { height: 60vh; }
+      .evento-card { flex: 0 0 250px; }
+      .eventos { top: 10%; width: 95%; padding: 25px; }
+    }
+
+    /*  Botón flotante  */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;          /* distancia desde abajo */
+  right: 20px;           /* distancia desde la derecha */
+  background-color: #0855232c;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.3);
+}
+
+.whatsapp-icon {
+  margin-top: 14px;
+}
+
+/*  Botón flotante  */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0855232c;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    .whatsapp-float:hover { transform: scale(1.3); }
+    .whatsapp-icon { margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <a href="https://kimetsu-no-yaiba.fandom.com/es/wiki/Kimetsu_no_Yaiba_(Franquicia)" target="_blank" rel="noopener">
+        <img src="PILAR.png" alt="Kimetsu no Yaiba" />
+      </a>
+      <h1>Pilares Del Saber</h1>
+    </div>
+    <nav>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-icon">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="menu">
+         <li><a href="index.html">Inicio</a></li>
+        <li><a href="index1.html">Áreas</a></li> 
+        <li><a href="index2.html">Galería</a></li>
+        <li><a href="index3.html">Sobre Nosotros</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home">
+    <div class="foto-overlay">
+      <img src="https://cdn.wallpapersafari.com/34/86/6Uz5Vt.jpg" alt="Clase">
+      <div class="texto-encima">Aprender no solo te da conocimiento, te da poder</div>
+    </div>
+
+    <!-- EVENTOS ENCIMA DEL FONDO -->
+    <section id="eventos" class="eventos">
+      <h2>Áreas</h2>
+      <div class="evento-carousel">
+        <div class="evento-card">
+          <h3>ÁREA DE INGLÉS</h3>
+          <p>En esta área tendrás muchos desafíos resolviendo oraciones, completando palabras y aprendiendo. <br>📅 Participa en nuestros torneos. ¿Listo? 😉🤖</p>
+        </div>
+        <div class="evento-card">
+          <h3>ÁREA DE MATEMÁTICA</h3>
+          <p>Compite resolviendo problemas de cálculo, lógica y patrones. Gana medallas y puntos de experiencia. <br>📅 30 de Octubre 2025</p>
+        </div>
+        <div class="evento-card">
+          <h3>ÁREA DE LENGUAJE</h3>
+          <p>Demuestra tus habilidades de ortografía, sinónimos, antónimos y comprensión lectora. <br>⚔️ 10 de Noviembre 2025</p>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Pilares Del Saber. Todos los derechos reservados.</p>
+    <p><a href="#"></a></p>
+    <p>Diseñado  por el equipo de Pilares Del Saber</p>
+  </footer>
+
+  <!--  Botón flotante de WhatsApp  -->
+<a href="https://wa.me/50239715201" class="whatsapp-float" target="_blank" title="Chatea con nosotros en WhatsApp">
+  <i class="whatsapp-icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="32" height="32">
+  </i>
+</a>
+
+
+</body>
+</html>
